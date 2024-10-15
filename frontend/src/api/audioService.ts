@@ -1,15 +1,22 @@
 import axios from 'axios';
 
-export async function sendAudio(audioBlob: Blob, targetLanguage: string, voice: string): Promise<Blob> {
+interface SendAudioResponse {
+    originalText: string;
+    translatedText: string;
+    audioContent: string;
+}
+
+export async function sendAudio(
+    audioBlob: Blob,
+    targetLanguage: string,
+    voice: string
+): Promise<SendAudioResponse> {
     const formData = new FormData();
-    formData.append('audio', audioBlob);
+    formData.append('audio', audioBlob, 'audio.wav');
     formData.append('targetLanguage', targetLanguage);
     formData.append('voice', voice);
 
-    const response = await axios.post('http://localhost:3000/api/translate', formData, {
-        responseType: 'blob',
-    });
+    const response = await axios.post('http://localhost:3000/api/translate', formData);
 
-
-    return response.data;
+    return response.data as SendAudioResponse;
 }

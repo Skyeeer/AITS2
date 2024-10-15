@@ -40,8 +40,11 @@ router.post('/translate', upload.single('audio'), async (req, res) => {
 
         const audioContent = await textToSpeech(translatedText, selectedVoice);
 
-        res.set('Content-Type', 'audio/mpeg');
-        res.send(audioContent);
+        res.json({
+            originalText: transcribedText,
+            translatedText: translatedText,
+            audioContent: audioContent.toString('base64'),
+        });
     } catch (error: any) {
         console.error('Error during translation:', error);
         res.status(500).json({ error: 'An error occurred during translation processing.' });
