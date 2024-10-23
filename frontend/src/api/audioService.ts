@@ -16,7 +16,9 @@ export async function sendAudio(
     formData.append('targetLanguage', targetLanguage);
     formData.append('voice', voice);
 
-    const response = await axios.post('http://localhost:3000/api/translate', formData);
+    const response = await axios.post('https://api.skyeeer.com/api/translate', formData);
+
+
 
     return response.data as SendAudioResponse;
 }
