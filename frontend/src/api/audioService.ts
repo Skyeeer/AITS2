@@ -16,17 +16,9 @@ export async function sendAudio(
     formData.append('targetLanguage', targetLanguage);
     formData.append('voice', voice);
 
-    console.log('FormData:', formData);
-    console.log('Sending POST to: https://api.skyeeer.com/api/translate');
+    const response = await axios.post('https://api.skyeeer.com/api/translate', formData);
 
-    try {
-        const response = await axios.post('https://api.skyeeer.com/api/translate', formData, {
-            withCredentials: false
-        });
-        console.log('Response:', response);
-        return response.data as SendAudioResponse;
-    } catch (error) {
-        console.error('Error:', error);
-        throw error;
-    }
+
+
+    return response.data as SendAudioResponse;
 }

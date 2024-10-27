@@ -11,7 +11,16 @@ import cors from 'cors';
 const app = express();
 const port = 3000;
 
-app.use(cors());
+const allowedOrigins = ['https://www.skyeeer.com', 'http://localhost:3000'];
+app.use(cors({
+    origin: (origin, callback) => {
+        if (!origin || allowedOrigins.includes(origin)) {
+            callback(null, true);
+        } else {
+            callback(new Error('Not allowed by CORS'));
+        }
+    }
+}));
 app.use(json());
 app.use('/api', translationRoutes);
 
